@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  // output   = "../lib/generated/prisma"
 }
 
 datasource db {
@@ -8,33 +7,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Role {
-  ADMIN
-  HR
-  EMPLOYEE
-}
-
-// model RefreshToken {
-//   id        Int      @id @default(autoincrement())
-//   token     String   @unique
-//   user      User     @relation(fields: [userId], references: [id])
-//   userId    Int
-//   revoked   Boolean  @default(false)
-//   createdAt DateTime @default(now())
-//   expiresAt DateTime
-// }
-
 model RefreshToken {
   id         Int      @id @default(autoincrement())
   token      String   @unique
-  user       User     @relation(fields: [userId], references: [id])
   userId     Int
   revoked    Boolean  @default(false)
   createdAt  DateTime @default(now())
   expiresAt  DateTime
-  isRemember Boolean  @default(false)  
+  isRemember Boolean  @default(false)
+  user       User     @relation(fields: [userId], references: [id])
 }
-
 
 model User {
   id            Int            @id @default(autoincrement())
@@ -42,18 +24,23 @@ model User {
   lastName      String
   email         String         @unique
   password      String
-  // isRemember    Boolean        @default(false)
   role          Role           @default(EMPLOYEE)
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
-  employee      Employee?      @relation(fields: [employeeId], references: [id])
   employeeId    Int?           @unique
   refreshTokens RefreshToken[]
+  employee      Employee?      @relation(fields: [employeeId], references: [id])
 }
 
 model Employee {
   id       Int       @id @default(autoincrement())
   phone    String?
-  user     User?
   joinDate DateTime?
+  user     User?
+}
+
+enum Role {
+  ADMIN
+  HR
+  EMPLOYEE
 }
