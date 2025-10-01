@@ -32,7 +32,7 @@ model RefreshToken {
   revoked    Boolean  @default(false)
   createdAt  DateTime @default(now())
   expiresAt  DateTime
-  isRemember Boolean  @default(false)  // ✅ Add here
+  isRemember Boolean  @default(false)  
 }
 
 
