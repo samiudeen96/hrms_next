@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+/* 
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+} */
+
+@theme {
+  --color-primary: #2563eb; /* Blue 600 */
+  --color-secondary: #64748b; /* Slate 500 */
+  --color-background: #f9fafb; /* Gray 50 */
+  --color-surface: #f3f4f6; /* Gray 100 */
+  --color-text: #111827; /* Gray 900 */
+  --color-success: #22c55e; /* Green 500 */
+  --color-warning: #f59e0b; /* Amber 500 */
+  --color-danger: #dc2626; /* Red 600 */
+   --color-outline: #e2e8f0; 
+
+  /* Optional dark mode */
+  --color-dark-bg: #111827;
+  --color-dark-surface: #1f2937;
+  --color-dark-text: #e5e7eb;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+/* body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+} */
+
+
+button{
+  cursor: pointer;
+}
+
+/* From Uiverse.io by AqFox */ 
+.spinner {
+ width: 85px;
+ height: 85px;
+ display: grid;
+ border: 4px solid #0000;
+ border-radius: 50%;
+ border-right-color: #2563eb;
+ animation: spinner-a4dj62 1s infinite linear;
+}
+
+.spinner::before,
+.spinner::after {
+ content: "";
+ grid-area: 1/1;
+ margin: 2px;
+ border: inherit;
+ border-radius: 50%;
+ animation: spinner-a4dj62 2s infinite;
+}
+
+.spinner::after {
+ margin: 8px;
+ animation-duration: 3s;
+}
+
+@keyframes spinner-a4dj62 {
+ 100% {
+  transform: rotate(1turn);
+ }
+}
