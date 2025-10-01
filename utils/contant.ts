@@ -6,7 +6,7 @@ import iconMap from "./icon";
 // ==========================
 export type MenuItem = {
   label: string;
-  path?: string;
+  path: string;
   action?: string;
   icon?: keyof typeof iconMap;
 };
