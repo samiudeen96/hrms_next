@@ -1,31 +1,32 @@
-import axios, { AxiosError } from "axios";
+import axios, { AxiosError, AxiosRequestConfig } from "axios";
+
+interface CustomAxiosRequestConfig extends AxiosRequestConfig {
+  _retry?: boolean;
+}
 
 const API = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
-  withCredentials: true, // send cookies automatically
+  withCredentials: true,
 });
 
-// Interceptor to handle access token expiration
 API.interceptors.response.use(
-  (response) => response, // just return successful responses
+  (response) => response,
   async (error: AxiosError) => {
-    const originalRequest: any = error.config;
+    const originalRequest = error.config as CustomAxiosRequestConfig;
 
-    // ✅ Skip refresh for login or refresh endpoints
-    const skipRefresh = originalRequest.url?.includes("/api/auth/login") ||
-                        originalRequest.url?.includes("/api/auth/refresh");
+    const skipRefresh =
+      originalRequest.url?.includes("/api/auth/login") ||
+      originalRequest.url?.includes("/api/auth/refresh");
 
-    // Retry logic for 401 responses
     if (!skipRefresh && error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
       try {
         console.log("[Axios] Access token expired, calling refresh...");
-        const res = await API.post("/api/auth/refresh"); // use same instance
+        const res = await API.post("/api/auth/refresh");
         console.log("[Axios] Refresh response:", res.data);
 
-        // Retry original request after successful refresh
-        return API(originalRequest);
+        return API(originalRequest); // retry
       } catch (err) {
         console.error("[Axios] Refresh failed, redirecting to login...", err);
         if (typeof window !== "undefined") {
@@ -35,7 +36,7 @@ API.interceptors.response.use(
       }
     }
 
-    return Promise.reject(error); // propagate other errors
+    return Promise.reject(error);
   }
 );
 
