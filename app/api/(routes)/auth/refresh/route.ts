@@ -71,7 +71,7 @@ export async function POST(req: Request) {
     if (!refreshToken) return NextResponse.json({ error: "No refresh token" }, { status: 401 });
 
     // Verify refresh token
-    let payload: any;
+    let payload;
     try { payload = verifyRefreshToken(refreshToken); } 
     catch { return NextResponse.json({ error: "Invalid refresh token" }, { status: 401 }); }
 

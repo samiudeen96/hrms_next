@@ -42,7 +42,7 @@ export default function LoginPage() {
         }
       },
 
-      onError: (error) => {
+      onError: () => {
         console.log("something went wrong");
       },
     });
