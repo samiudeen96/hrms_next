@@ -5,6 +5,7 @@ import Spinner from "@/components/Spinner";
 import { useLogin } from "@/hooks/authHook";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
@@ -33,17 +34,29 @@ export default function LoginPage() {
     e.preventDefault();
     // console.log(formData);
 
+    // login.mutate(formData, {
+    //   onSuccess: (data) => {
+    //     // console.log(data);
+
+    //     if (data.success) {
+    //       router.push("/dashboard");
+    //     }
+    //   },
+
+    //   onError: (error) => {
+    //     const message = error?.message || "Something went wrong";
+    //     toast.error(message);
+    //   },
+    // });
+
     login.mutate(formData, {
       onSuccess: (data) => {
-        // console.log(data);
-
         if (data.success) {
           router.push("/dashboard");
         }
       },
-
-      onError: () => {
-        console.log("something went wrong");
+      onError: (error: any) => {
+        toast.error(error.message); // ✅ will now show toast
       },
     });
   };
