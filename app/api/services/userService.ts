@@ -15,13 +15,12 @@ export const loginFn = async (formData: FormData) => {
   try {
     const res = await API.post("/api/auth/login", formData);
     return res.data;
-  } catch (error: any) {
-    // Extract message from API error
-    const message = error.response?.data?.error || "Something went wrong";
-    throw new Error(message);   // ✅ throw instead of return
+  } catch (error) {
+    const axiosError = error as AxiosError<{ error?: string }>;
+    const message = axiosError.response?.data?.error || "Something went wrong";
+    throw new Error(message);
   }
 };
-
 
 export const profileFn = async () => {
   try {

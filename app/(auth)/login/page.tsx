@@ -55,7 +55,7 @@ export default function LoginPage() {
           router.push("/dashboard");
         }
       },
-      onError: (error: any) => {
+      onError: (error: Error) => {
         toast.error(error.message); // ✅ will now show toast
       },
     });
